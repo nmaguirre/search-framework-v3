@@ -11,7 +11,7 @@ def alternative_successors(state: NQueensState):
     successors = []
     for col in range(state.board_size):
         current_row = state.queens[col]
-        for delta in [-1, 1]:
+        for delta in [-7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 6, 7]:
             new_row = current_row + delta
             if 0 <= new_row < state.board_size:
                 new_queens = list(state.queens)
@@ -25,14 +25,15 @@ def alternative_successors(state: NQueensState):
 problem = NQueensProblem(8)
 current_state = None
 curr_time = time.time()
-max_restarts = 10
+max_restarts = 100
 for restart in range(max_restarts):
     problem = NQueensProblem(8, initial_state=NQueensProblem.random_state(8))
+    #problem = NQueensProblem(8)
     current_state = problem.get_initial_state()
     stuck = False
     while not stuck and not problem.is_goal(current_state):
-        # successors = alternative_successors(current_state)
-        successors = problem.get_successors(current_state)
+        #successors = problem.get_successors(current_state)
+        successors = alternative_successors(current_state)
         if not successors:
             stuck = True
         else:

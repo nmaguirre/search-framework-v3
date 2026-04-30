@@ -43,6 +43,9 @@ max_generations = 10000
 for generation in range(max_generations):
     # Evaluate fitness of the population
     fitness = [problem.heuristic(state) for state in population]
+    #print(population)
+    #print(fitness)
+    #print("-----")
     if 0 in fitness:
         solution_index = fitness.index(0)
         print(f"Solution found in generation {generation}")
@@ -57,10 +60,14 @@ for generation in range(max_generations):
     for i in range(0, len(selected_population) - 1, 2):
         parent1 = selected_population[i]
         parent2 = selected_population[i + 1]
-        child = crossover(parent1, parent2)
-        child = mutate(child)
-        next_generation.append(child)
-    population = next_generation
+        child1 = crossover(parent1, parent2)
+        child2 = mutate(parent1)
+        next_generation.append(child1)
+        next_generation.append(child2)
+    population = population + next_generation
+    selected_indices = random.sample(range(len(population)), population_size)
+    selected_population = [population[i] for i in selected_indices]
+    population = selected_population
 
 
 
